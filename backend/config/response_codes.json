@@ -1,0 +1,13 @@
+{
+    "500": "Internal Server Error",
+    "401": "Unauthorized",
+    "400": "Bad request",
+    "404": "Not Found",
+    "408": "Request Timeout",
+    "403": "Forbidden",
+    "429": "Too many requests from this IP, please try again later",
+    "600": "User not found",
+    "601": "User is disabled",
+    "602": "Artname exists",
+    "700": "Listing not found or disabled"
+}

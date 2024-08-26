@@ -1,0 +1,40 @@
+version: '3'
+services:
+  mysql_db:
+    image: mysql:5.7
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}  
+ 
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  backend:
+    build: ./backend
+    container_name: backend_service
+    environment:
+      DB_HOST: mysql_db
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_NAME: ${MYSQL_DATABASE}
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mysql_db
+    volumes:
+      - /root/mqstore/.env:/app/.env
+    restart: on-failure
+
+volumes:
+  mysql-data:

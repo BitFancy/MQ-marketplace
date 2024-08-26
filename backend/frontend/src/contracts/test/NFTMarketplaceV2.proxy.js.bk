@@ -1,0 +1,179 @@
+const { expect } = require("chai");
+const { ethers, upgrades } = require("hardhat");
+
+let NFTMarketplace;
+let nftmarketplaceV1;
+let nftmarketplaceV2;
+let marketplace;
+
+// Start test block
+describe('NFTMarketplace (proxy)', function () 
+{
+    beforeEach(async function () 
+    {
+        NFTMarketplace = await ethers.getContractFactory("NFTMarketplace");
+        const NFTMarketplaceV2 = await ethers.getContractFactory("NFTMarketplaceV2")
+        nftmarketplaceV1 = await upgrades.deployProxy(NFTMarketplace, { initializer: 'initialize' });
+        nftmarketplaceV2 = await upgrades.upgradeProxy(nftmarketplaceV1.target, NFTMarketplaceV2);
+        marketplace = nftmarketplaceV2;
+        [ownerAddress, user1, user2] = await ethers.getSigners();
+    });
+
+    it("should create a new token and market item", async function () 
+    {
+        // Create a new token
+        const tokenId = await marketplace.createToken("TokenURI", ethers.parseUnits("0", "ether"));
+        const tokenId_q = await marketplace.createToken("TokenURI1", ethers.parseUnits("0", "ether"));
+        //console.log("ownerAddress", ownerAddress.address);
+        // Retrieve market items by owner
+        const ownerMarketItems = await marketplace.getMarketItems("0x0000000000000000000000000000000000000000");
+        //console.log("ownerMarketItems.length", ownerMarketItems.length);
+        for(let item of ownerMarketItems) 
+        {
+        //console.log("THE ITEM:", item);
+        console.log("Token ID:", item.tokenId);
+        console.log("Seller:", item.seller);
+        console.log("Owner:", item.owner);
+        console.log("Price:", item.price.toString());
+        //console.log("Sold:", item.sold);
+        console.log("TokenUri:", item.tokenURI);
+        console.log("State:", item.state);
+        console.log("----------------------------------");
+        expect(BigInt(item.state)).to.equal(BigInt(1));
+        }
+    });
+
+    it("should transfer an NFT from one address to another", async function () 
+    {
+        await marketplace.createToken("TokenURI", ethers.parseUnits("0", "ether"));
+        const items = await marketplace.getMarketItems(ownerAddress.address);
+        const tokenId = items[0].tokenId;
+        await marketplace.transferFrom(ownerAddress.address, user1.address, tokenId);
+        const ownerOfTokenAfterTransfer = await marketplace.ownerOf(tokenId);
+        expect(ownerOfTokenAfterTransfer).to.equal(user1.address);
+        let marketItem = await marketplace.getMarketItem(tokenId);
+        expect(marketItem.owner).to.equal(user1.address);
+        await marketplace.connect(user1).transferFrom(user1.address, user2.address, tokenId);
+        const ownerOfTokenAfterSecondTransfer = await marketplace.ownerOf(tokenId);
+        expect(ownerOfTokenAfterSecondTransfer).to.equal(user2.address);
+        marketItem = await marketplace.getMarketItem(tokenId);
+        expect(marketItem.owner).to.equal(user2.address);
+    });
+
+    it("should change item state and price", async function () 
+    {
+        await marketplace.createToken("TokenURI", ethers.parseUnits("0", "ether"));
+        let items = await marketplace.getMarketItems(ownerAddress.address);
+        const tokenId = items[0].tokenId;
+        let initialPrice = ethers.parseUnits("0.003", "ether");
+        await marketplace.changeItemStateAndPrice(tokenId, initialPrice, BigInt(0));
+        items = await marketplace.getMarketItems(ownerAddress.address);
+        let item = items[0];
+        expect(BigInt(item.state)).to.equal(BigInt(0));
+        expect(item.price).to.equal(initialPrice);
+        initialPrice = ethers.parseUnits("0", "ether");
+        await marketplace.changeItemStateAndPrice(tokenId, initialPrice, BigInt(1));
+        items = await marketplace.getMarketItems(ownerAddress.address);
+        item = items[0];
+        expect(BigInt(item.state)).to.equal(BigInt(1));
+        expect(item.price).to.equal(initialPrice);
+        const signer = await ethers.provider.getSigner(user2.address);
+        try 
+        {
+            await marketplace.connect(signer).changeItemStateAndPrice(tokenId, initialPrice, BigInt(1));
+            expect.fail("Transaction did not revert as expected");
+        }
+        catch (error)
+        {
+            expect(error.message).to.contain("Caller is not the owner");
+        }
+    });
+
+    it("should retrieve market items by state", async function () 
+    {
+        // Create tokens with different states
+        const tokenIdActive = await marketplace.createToken("TokenURIActive", ethers.parseUnits("0", "ether"));
+        const tokenIdInactive = await marketplace.createToken("TokenURIInactive", ethers.parseUnits("0", "ether"));
+        
+        // Change the state of one token to inactive
+        await marketplace.changeItemStateAndPrice(1, ethers.parseUnits("0", "ether"), 0);
+
+        // Retrieve market items by state
+        const activeItems = await marketplace.getMarketItemsByState("0x0000000000000000000000000000000000000000", 0);
+        const inactiveItems = await marketplace.getMarketItemsByState("0x0000000000000000000000000000000000000000", 1);
+        // Check the length of the arrays
+        expect(activeItems.length).to.equal(1);
+        expect(inactiveItems.length).to.equal(1);
+
+        // Verify the token IDs and states
+        expect(activeItems[0].state).to.equal(0); // Active state
+        expect(inactiveItems[0].state).to.equal(1); // Inactive state   
+    });
+
+    it("should transfer token ownership and payment correctly", async function () 
+    {
+        await marketplace.createToken("TokenURI", ethers.parseUnits("0", "ether"));
+        const tokenId = 1;
+        //const items = await marketplace.getMarketItems(ownerAddress.address);
+        //console.log(items);
+
+        
+        // Get initial balances
+        //const sellerBalanceBefore = await ethers.provider.getBalance(seller.address);
+        //const buyerBalanceBefore = await ethers.provider.getBalance(buyer.address);
+
+        // Purchase the token
+        //let tx = await marketplace.approve(user1.address, tokenId);
+        //await tx.wait();
+        try 
+        {
+            await marketplace.connect(user1).buyFromListing(tokenId, ownerAddress.address, { value: ethers.parseUnits("1", "wei") });
+            expect.fail("Transaction did not revert as expected");
+        }
+        catch (error)
+        {
+            //console.log(error);
+            expect(error.message).to.contain("This item is not for sale");
+            //tx = await marketplace.approve("0x0000000000000000000000000000000000000000", tokenId);
+            //await tx.wait();
+        }
+        //tx = await marketplace.approve(user1.address, tokenId);
+        //await tx.wait();
+        try 
+        {
+            let initialPrice = ethers.parseUnits("3.45", "ether");
+            await marketplace.changeItemStateAndPrice(tokenId, initialPrice, BigInt(0));
+            await marketplace.connect(user1).buyFromListing(tokenId, ownerAddress.address, { value: ethers.parseUnits("1", "wei") });
+            expect.fail("Transaction did not revert as expected");
+            //tx = await marketplace.approve("0x0000000000000000000000000000000000000000", tokenId);
+            //await tx.wait();
+        }
+        catch (error)
+        {
+            //console.log(error);
+            expect(error.message).to.contain("Please submit the asking price in order to complete the purchase");
+        }
+        //tx = await marketplace.connect(ownerAddress).approve(marketplace.target, tokenId);
+        //await tx.wait();
+        marketItem = await marketplace.getMarketItem(tokenId);
+        console.log("Owner:", marketItem.owner);
+        console.log(user1.address);
+        console.log(marketItem);
+        //console.log(marketplace.target, ownerAddress.address);
+        //const approvedAddress = await marketplace.getApproved(tokenId);
+        //console.log(marketplace.target, ownerAddress.address);
+        //console.log("Approved address:", approvedAddress);
+        await marketplace.connect(user1).buyFromListing(tokenId, marketplace.target, { value: ethers.parseUnits("3.45") });
+        //const approvedAddress = await marketplace.getApproved(tokenId);
+        //console.log("Approved address:", approvedAddress);
+        //const ownerOfTokenAfter = await marketplace.ownerOf(tokenId);
+        //expect(ownerOfTokenAfter).to.equal(user1.address);
+        marketItem = await marketplace.getMarketItem(tokenId);
+        console.log("Owner:", marketItem.owner);
+        console.log(marketItem);
+        //expect(marketItem.owner).to.equal(user1.address);
+        //expect(marketItem.state).to.equal(1);
+        //expect(marketItem.price).to.equal(0);
+    });
+
+});

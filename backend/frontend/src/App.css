@@ -1,0 +1,95 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+:root {
+  --black: oklch(17.7% 0.105 262.48);
+  --purple: oklch(60% 0.37 294.7);
+  --orange: oklch(60% 0.37 64.65);
+  --yellow: oklch(60% 0.37 109.08);
+  --blue: oklch(60% 0.37 237.06);
+  --black-alpha-50: color-mix(in oklch, var(--black), transparent);
+}
+
+@property --gradient-angle {
+  inherits: false;
+  initial-value: 0deg;
+  syntax: "<angle>";
+}
+
+@keyframes spin {
+  to {
+      --gradient-angle: 360deg;
+  }
+}
+
+.explore-btn {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-gradient-border::before {
+  content: '';
+  position: absolute;
+  top: -4px; /* Adjust according to your desired thickness */
+  left: -4px; /* Adjust according to your desired thickness */
+  right: -4px; /* Adjust according to your desired thickness */
+  bottom: -4px; /* Adjust according to your desired thickness */
+  background: linear-gradient(45deg, #ff6ec4, #7873f5, #2ee59d);
+  z-index: -1;
+  background-size: 200% 200%;
+  animation: gradientBorderAnimation 4s linear infinite;
+  border-radius: inherit;
+}
+
+@keyframes gradientBorderAnimation {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
+}

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunknft_market=self.webpackChunknft_market||[]).push([[1012],{11012:(t,e,n)=>{n.d(e,{CognitoIdentityClient:()=>a.D,GetCredentialsForIdentityCommand:()=>d.t,GetIdCommand:()=>C.x});var a=n(84035),d=n(34918),C=n(42204)}}]);

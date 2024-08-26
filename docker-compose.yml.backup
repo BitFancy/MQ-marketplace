@@ -1,0 +1,72 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}    
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  backend:
+    build: ./backend
+    container_name: backend_service
+    environment:
+      DB_HOST: mysql_db
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_NAME: ${MYSQL_DATABASE}
+      JWT_SECRET: ${SECRET_KEY}
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mysql
+    volumes:
+      - /root/mqstore/.env:/app/.env
+    restart: on-failure
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_service
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_PARTICLE_PROJECT_ID: e54325ff-4317-40d8-82a2-c57bae803bee
+      REACT_APP_PARTICLE_CLIENT_KEY: cZrWV4pCjavu1fwssv5Rtejk6Ava0FHGLdVm6OMX
+      REACT_APP_PARTICLE_APP_ID: 0d9b041c-3872-4aa6-8080-fe182efb0636
+      REACT_APP_CHAIN_NAME: Amoy
+      REACT_APP_CHAIN_ID: 80002
+      REACT_APP_IPFS_IMAGE_URL: https://rpc.particle.network/ipfs/upload
+      REACT_APP_IPFS_JSON_URL: https://rpc.particle.network/ipfs/upload_json
+      REACT_APP_WALLETCONNECT_PROJECT_ID: your_walletconnect_project_id
+      REACT_APP_API_ADDRESS: ${BACKEND_API_URL}
+      REACT_APP_CONTRACT_PROXY_ADDRESS_DEV: 0xYourDevContractAddress
+      REACT_APP_CONTRACT_PROXY_ADDRESS_TESTING: 0x49c30c253604a66d7c654c463b71252302d0dbda
+      REACT_APP_CONTRACT_PROXY_ADDRESS_PROD: 0xYourProdContractAddress
+      REACT_APP_NFT_CONTRACT_PROXY_ADDRESS: 0x0d7c5004cc7ff25eb70d6db7a298236a94c89e6b
+      REACT_APP_CHAIN_ADDRESS_DEV: ws://localhost:8545
+      REACT_APP_CHAIN_ADDRESS_TESTING: https://polygon-amoy.drpc.org
+      REACT_APP_CHAIN_ADDRESS_PROD: https://rpc-mainnet.maticvigil.com
+      REACT_APP_CHAIN_ID_DEV: 1337
+      REACT_APP_CHAIN_ID_TESTING: 80002
+      REACT_APP_CHAIN_ID_PROD: 137
+      REACT_APP_CHAIN_ACCOUNT_DEV: 0xYourDevAccountAddress
+      REACT_APP_CHAIN_ACCOUNT_TESTING: 0x668fA07e072f09F8A40D620512B76cc4970F5393
+      REACT_APP_CHAIN_ACCOUNT_PROD: 0xYourProdAccountAddress
+      NODE_ENV: "development"
+    depends_on:
+      - backend
+    command: sh -c "cd /app && yarn start"
+
+volumes:
+  mysql-data:

@@ -1,0 +1,205 @@
+                                });
+                              process.exit(1);
+                          console.error(error);
+                      .catch(error => {
+                    .then(() => process.exit(0))
+                  main()
+                  }
+                  console.log("New value:", newValue);
+                const newValue = await box.retrieve();
+              console.log("Stored 42 in the contract");
+            await box.store(22);
+          console.log("Retrieved value:", value);
+        const value = await box.retrieve();
+      const box = await Box.attach(boxAddress);
+    const Box = await ethers.getContractFactory("BoxV3");
+  const boxAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"; // Address of the deployed contract
+async function main() {
+const { ethers } = require("hardhat");
+.load ./src/contracts/scripts/box.interact.js
+                                });
+                              process.exit(1);
+                          console.error(error);
+                      .catch(error => {
+                    .then(() => process.exit(0))
+                  main()
+                  }
+                  console.log("New value:", newValue);
+                const newValue = await box.retrieve();
+              console.log("Stored 42 in the contract");
+            await box.store(42);
+          console.log("Retrieved value:", value);
+        const value = await box.retrieve();
+      const box = await Box.attach(boxAddress);
+    const Box = await ethers.getContractFactory("BoxV3");
+  const boxAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"; // Address of the deployed contract
+async function main() {
+const { ethers } = require("hardhat");
+.load ./src/contracts/scripts/box.interact.js
+                                });
+                              process.exit(1);
+                          console.error(error);
+                      .catch(error => {
+                    .then(() => process.exit(0))
+                  main()
+                  }
+                  console.log("New value:", newValue);
+                const newValue = await box.retrieve();
+              console.log("Stored 42 in the contract");
+            await box.store(42);
+          console.log("Retrieved value:", value.toNumber());
+        const value = await box.retrieve();
+      const box = await Box.attach(boxAddress);
+    const Box = await ethers.getContractFactory("BoxV3");
+  const boxAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"; // Address of the deployed contract
+async function main() {
+const { ethers } = require("hardhat");
+.load ./src/contracts/scripts/box.interact.js
+                                });
+                              process.exit(1);
+                          console.error(error);
+                      .catch(error => {
+                    .then(() => process.exit(0))
+                  main()
+                  }
+                  console.log("New value:", newValue.toNumber());
+                const newValue = await box.retrieve();
+              console.log("Stored 42 in the contract");
+            await box.store(42);
+          console.log("Retrieved value:", value.toNumber());
+        const value = await box.retrieve();
+      const box = await Box.attach(boxAddress);
+    const Box = await ethers.getContractFactory("BoxV3");
+  const boxAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"; // Address of the deployed contract
+async function main() {
+const { ethers } = require("hardhat");
+.load ./src/contracts/scripts/box.interact.js
+                                });
+                              process.exit(1);
+                          console.error(error);
+                      .catch(error => {
+                    .then(() => process.exit(0))
+                  main()
+                  }
+                  console.log("New value:", newValue.toNumber());
+                const newValue = await box.retrieve();
+              console.log("Stored 42 in the contract");
+            await box.store(42);
+          console.log("Retrieved value:", value.toNumber());
+        const value = await box.retrieve();
+      const box = await Box.attach(boxAddress);
+    const Box = await ethers.getContractFactory("Box");
+  const boxAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"; // Address of the deployed contract
+async function main() {
+const { ethers } = require("hardhat");
+.load ./src/contracts/scripts/box.interact.js
+                                });
+                              process.exit(1);
+                          console.error(error);
+                      .catch(error => {
+                    .then(() => process.exit(0))
+                  main()
+                  }
+                  console.log("New value:", newValue.toNumber());
+                const newValue = await box.retrieve();
+              console.log("Stored 42 in the contract");
+            await box.store(42);
+          console.log("Retrieved value:", value.toNumber());
+        const value = await box.retrieve();
+      const box = await Box.attach(boxAddress);
+    const Box = await ethers.getContractFactory("BoxV3");
+  const boxAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"; // Address of the deployed contract
+async function main() {
+const { ethers } = require("hardhat");
+.load ./src/contracts/scripts/box.interact.js
+                                });
+                              process.exit(1);
+                          console.error(error);
+                      .catch(error => {
+                    .then(() => process.exit(0))
+                  main()
+                  }
+                  console.log("New value:", newValue.toNumber());
+                const newValue = await box.retrieve();
+              console.log("Stored 42 in the contract");
+            await box.store(42);
+          console.log("Retrieved value:", value.toNumber());
+        const value = await box.retrieve();
+      const box = await Box.attach(boxAddress);
+    const Box = await ethers.getContractFactory("Box");
+  const boxAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"; // Address of the deployed contract
+async function main() {
+const { ethers } = require("hardhat");
+.load ./src/contracts/scripts/box.interact.js
+                                });
+                              process.exit(1);
+                          console.error(error);
+                      .catch(error => {
+                    .then(() => process.exit(0))
+                  main()
+                  }
+                  console.log("New value:", newValue.toNumber());
+                const newValue = await box.retrieve();
+              console.log("Stored 42 in the contract");
+            await box.store(42);
+          console.log("Retrieved value:", value.toNumber());
+        const value = await box.retrieve();
+      const box = await Box.attach(boxAddress);
+    const Box = await ethers.getContractFactory("BoxV3");
+  const boxAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"; // Address of the deployed contract
+async function main() {
+const { ethers } = require("hardhat");
+.load ./src/contracts/scripts/box.interact.js
+                                });
+                              process.exit(1);
+                          console.error(error);
+                      .catch(error => {
+                    .then(() => process.exit(0))
+                  main()
+                  }
+                  console.log("New value:", newValue.toNumber());
+                const newValue = await box.retrieve();
+              console.log("Stored 42 in the contract");
+            await box.store(42);
+          console.log("Retrieved value:", value.toNumber());
+        const value = await box.retrieve();
+      const box = await Box.attach(boxAddress);
+    const Box = await ethers.getContractFactory("Box");
+  const boxAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"; // Address of the deployed contract
+async function main() {
+const { ethers } = require("hardhat");
+.load ./src/contracts/scripts/box.interact.js
+                                });
+                              process.exit(1);
+                          console.error(error);
+                      .catch(error => {
+                    .then(() => process.exit(0))
+                  main()
+                  }
+                  console.log("New value:", newValue.toNumber());
+                const newValue = await box.retrieve();
+              console.log("Stored 42 in the contract");
+            await box.store(42);
+          console.log("Retrieved value:", value.toNumber());
+        const value = await box.retrieve();
+      const box = await Box.attach(boxAddress);
+    const Box = await ethers.getContractFactory("Box");
+  const boxAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"; // Address of the deployed contract
+async function main() {
+const { ethers } = require("hardhat");
+.load ./src/contracts/scripts/box.interact.js
+.load ./src/contracts/scripts/interact.js
+.load ../src/contracts/scripts/interact.js
+.load ../../src/contracts/scripts/interact.js
+.load ../../contracts/scripts/interact.js
+.load ../contracts/scripts/interact.js
+.load contracts/scripts/interact.js
+.load ./contracts/scripts/interact.js
+.load ../../contracts/scripts/interact.js
+.load ../../scripts/interact.js
+.load ../scripts/interact.js
+.load ./scripts/interact.js
+ls
+.load ./scripts/interact.js
+.load src/scripts/interact.js
+.load /scripts/interact.js
